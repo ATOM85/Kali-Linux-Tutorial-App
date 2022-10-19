@@ -52,13 +52,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
     }
 
 
-    @Override
-    public AdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.infolayout, parent, false);
-        return new AdapterViewHolder(view);
-    }
 
 
     @Override
@@ -85,24 +78,41 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
             }
 
         });
+        
+    @Override
+    public AdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.infolayout, parent, false);
+        return new AdapterViewHolder(view);
+    }
+         @Override
+    public int getItemCount() {
+        return data.size();
+    }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int pos = sheetlist.getPos();
                 // Toast.makeText(context, "" + pos, Toast.LENGTH_SHORT).show();
 
-                if (pos == 1) {
+                if (pos == 1) 
+                {
                     handlerfun();
-                    if (count < 11) {
+                    if (count < 11)
+                    {
                         ButtonClick(sheetlist);
                         //   Toast.makeText(context, "" + count, Toast.LENGTH_SHORT).show();
                     }
-                    if (count > 11) {
-                        if (storagePref.isFirstTimeLaunch()) {
+                    if (count > 11)
+                    {
+                        if (storagePref.isFirstTimeLaunch()) 
+                        {
                             storagePref.launchHomeScreen(false);
                             storagePref.setCount(count);
                             ButtonClick(sheetlist);
-                        } else {
+                        } else 
+                        {
                             handler.removeMessages(0);
                             Intent intent = new Intent(context, webViewActivity.class);
                             intent.putExtra("link", sheetlist.getLink());
@@ -113,9 +123,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                         }
                     }
                 } else {
-                    if (interstitialAd.isLoaded()) {
+                    if (interstitialAd.isLoaded())
+                    {
                         interstitialAd.show();
-                    } else {
+                    } else
+                    {
                         Log.d("TAG", "The interstitial wasn't loaded yet.");
                     }
                     Intent intent = new Intent(context, webViewActivity.class);
@@ -126,27 +138,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
             }
         });
     }
-
-
-    @Override
-    public int getItemCount() {
-        return data.size();
-    }
-
-    public class AdapterViewHolder extends RecyclerView.ViewHolder {
-
-        TextView title, link;
-        CircleImageView circleImageView;
-
-        public AdapterViewHolder(View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.title);
-            link = itemView.findViewById(R.id.link);
-            circleImageView = itemView.findViewById(R.id.image);
-
-        }
-    }
-
     public void ButtonClick(final Sheet1 sh) {
         fancyAlertDialog.setTitle("Rate Us!")
                 .setBackgroundColor(Color.parseColor("#2c3e50"))  //Don't pass R.color.colorvalue
@@ -187,7 +178,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                 })
                 .build();
     }
+ public class AdapterViewHolder extends RecyclerView.ViewHolder {
 
+        TextView title, link;
+        CircleImageView circleImageView;
+
+        public AdapterViewHolder(View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.title);
+            link = itemView.findViewById(R.id.link);
+            circleImageView = itemView.findViewById(R.id.image);
+
+        }
+    }
     private void handlerfun() {
         handler = new android.os.Handler();
         handler.postDelayed(new Runnable() {
